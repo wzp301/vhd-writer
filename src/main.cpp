@@ -294,14 +294,13 @@ class VhdWriter {
 public:
 	static void writeWithBinPath(Vhd& vhd, const std::string& binPath, uint32_t sectorIndex, int mode)
 	{
-		std::ifstream binFile(binPath);
+		std::ifstream binFile(binPath, std::ios::binary);
 		if (!binFile.is_open()) {
 			std::cout << "Opening bin file error! binPath is " << binPath.c_str() << std::endl;
 			std::exit(-1);
 		}
-		std::vector<uint8_t> data;
-		std::istream_iterator<uint8_t> start(binFile), end;
-		std::copy(start, end, std::back_inserter(data));
+		std::vector<uint8_t> data((std::istreambuf_iterator<char>(binFile)),
+			std::istreambuf_iterator<char>());;
 		binFile.close();
 
 		int ret = WRITE_VHD_OK;
@@ -319,7 +318,7 @@ public:
 			std::cout << "error: OVER_SECTOR_ERROR! The sector input is " << sectorIndex << ", but vhd sector is " << vhd.get_disk_geometry().sector << std::endl;
 		}
 		else if (ret == OPEN_VHD_ERROR) {
-			std::cout << "error: Opening vhd file error! vhdPath is" <<  vhd.get_vhd_path().c_str() << std::endl;
+			std::cout << "error: Opening vhd file error! vhdPath is " <<  vhd.get_vhd_path().c_str() << std::endl;
 		}
 		else if (ret == WRITE_VHD_OK) {
 			std::cout << "info : Writing " << data.size() << " bytes to sector " << sectorIndex << " of vhd." << std::endl;
