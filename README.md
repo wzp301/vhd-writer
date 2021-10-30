@@ -12,13 +12,19 @@ vhd-writer是一个用于修改虚拟磁盘([vhd](https://docs.microsoft.com/en-
 
 ## 编译
 
-### Windows
+### 环境要求
+
+- CMake 3.11.0及以上,[CMake下载地址](https://cmake.org/download/)
+- VS2015及以上
+- gcc4.7及以上
+
+### Windows端编译
 
 ```shell
 PS C:\Users\vhd-writer> .\build_win.bat
 ```
 
-### Linux
+### Linux端编译
 
 ```shell
 ~$ sh buildall_linux.sh 
